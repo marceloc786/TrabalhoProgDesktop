@@ -27,21 +27,178 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        comboBox1 = new javax.swing.JComboBox<>();
+        btnCarregar = new javax.swing.JButton();
+        btnApagar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        btnEditar = new javax.swing.JButton();
+        btnNovo = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        menuNovoHardware = new javax.swing.JMenuItem();
+        menuNovoCliente = new javax.swing.JMenuItem();
+        menuNovoSoftware = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        menuVerHardware = new javax.swing.JMenuItem();
+        menuVerCliente = new javax.swing.JMenuItem();
+        menuVerSoftware = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        comboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hardware", "Cliente", "Software" }));
+        comboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBox1ActionPerformed(evt);
+            }
+        });
+
+        btnCarregar.setText("Carregar");
+        btnCarregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarregarActionPerformed(evt);
+            }
+        });
+
+        btnApagar.setText("Apagar");
+        btnApagar.setFocusable(false);
+        btnApagar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnApagar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        jLabel1.setText("Selecione o item");
+
+        jLabel2.setText("Selecione a Ação");
+
+        btnEditar.setText("Editar");
+
+        btnNovo.setText("Adicionar");
+
+        jMenu1.setText("Arquivo");
+
+        jMenu3.setText("Adicionar");
+
+        menuNovoHardware.setText("Hardware");
+        jMenu3.add(menuNovoHardware);
+
+        menuNovoCliente.setText("Cliente");
+        menuNovoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNovoClienteActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menuNovoCliente);
+
+        menuNovoSoftware.setText("Software");
+        jMenu3.add(menuNovoSoftware);
+
+        jMenu1.add(jMenu3);
+
+        jMenu4.setText("Carregar");
+
+        menuVerHardware.setText("Hardware");
+        jMenu4.add(menuVerHardware);
+
+        menuVerCliente.setText("Cliente");
+        jMenu4.add(menuVerCliente);
+
+        menuVerSoftware.setText("Software");
+        menuVerSoftware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVerSoftwareActionPerformed(evt);
+            }
+        });
+        jMenu4.add(menuVerSoftware);
+
+        jMenu1.add(jMenu4);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCarregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNovo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnApagar)
+                        .addGap(25, 25, 25))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(110, 110, 110)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(114, 114, 114)
+                                .addComponent(jLabel2)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCarregar)
+                            .addComponent(btnApagar)
+                            .addComponent(btnEditar)
+                            .addComponent(btnNovo))))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCarregarActionPerformed
+
+    private void menuVerSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerSoftwareActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuVerSoftwareActionPerformed
+
+    private void comboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBox1ActionPerformed
+
+    private void menuNovoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNovoClienteActionPerformed
+        NovoCliente nc = new NovoCliente();
+        nc.setVisible(true);
+    }//GEN-LAST:event_menuNovoClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +236,25 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApagar;
+    private javax.swing.JButton btnCarregar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnNovo;
+    private javax.swing.JComboBox<String> comboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JMenuItem menuNovoCliente;
+    private javax.swing.JMenuItem menuNovoHardware;
+    private javax.swing.JMenuItem menuNovoSoftware;
+    private javax.swing.JMenuItem menuVerCliente;
+    private javax.swing.JMenuItem menuVerHardware;
+    private javax.swing.JMenuItem menuVerSoftware;
     // End of variables declaration//GEN-END:variables
 }
