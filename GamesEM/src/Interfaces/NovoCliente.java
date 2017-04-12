@@ -9,6 +9,19 @@ package Interfaces;
  *
  * @author emmanuel
  */
+
+import Codigos.Cliente;
+import Codigos.ManipuladorArquivos;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class NovoCliente extends javax.swing.JFrame {
 
     /**
@@ -57,6 +70,11 @@ public class NovoCliente extends javax.swing.JFrame {
         jLabel5.setText("Cartão de Crédito");
 
         btnSalva.setText("Salva");
+        btnSalva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvaActionPerformed(evt);
+            }
+        });
 
         btnCancela.setText("Cancela");
         btnCancela.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +153,51 @@ public class NovoCliente extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnCancelaActionPerformed
+
+    private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
+        File arquivo = new File("/home/emmanuel/bdCliente.bin");//Instancia novo arquivo para o banco de dados de clientes
+        //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
+        ArrayList<Cliente> bdCli = new ArrayList<>();
+        //Instancia um cliente novo e seta os valores dos text fields
+        Cliente novoCli = new Cliente();
+        novoCli.setNome(textFieldNome.getText());
+        novoCli.setCep(Integer.parseInt(tfCep.getText()));
+        novoCli.setEndereco(textFieldEndereco.getText());
+        novoCli.setCpf(Integer.parseInt(tfCPF.getText()));
+        novoCli.setnCartaoCredito(Integer.parseInt(tfCartao.getText()));
+        //Se arquivo ainda não existe, cria um novo
+        if(!arquivo.exists())
+        {
+            try {
+                arquivo.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(NovoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            //Adiciona o novo cliente na lista do banco de dados
+            bdCli.add(novoCli);    
+        }
+        else{
+            //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
+            ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+            bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+            //Adiciona o novo cliente na lista do banco de dados
+            bdCli.add(novoCli);
+            try {
+                leitor.close();
+            } catch (IOException ex) {
+                Logger.getLogger(NovoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
+        ObjectOutputStream escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
+        ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
+        try {
+            escritor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(NovoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+    }//GEN-LAST:event_btnSalvaActionPerformed
 
     /**
      * @param args the command line arguments

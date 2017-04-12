@@ -10,6 +10,14 @@ package Codigos;
  * @author emmanuel
  */
 
+/*
+
+ Usar métodos estáticos dessa classe para manipular os arquivos nas janelas.
+ O arquivo será criado e fechado na classe que estiver o manipulando, reunindo aqui
+ Apenas os métodos para escrever e ler a ArrayList no arquivo binário
+
+*/
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

@@ -48,6 +48,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Cliente"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVerClienteActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="menuVerSoftware">
                   <Properties>
@@ -182,6 +185,7 @@
             <StringItem index="2" value="Software"/>
           </StringArray>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Selecione o item para ser exibido na &#xe1;rea de texto"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBox1ActionPerformed"/>

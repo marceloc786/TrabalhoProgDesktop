@@ -5,6 +5,16 @@
  */
 package Interfaces;
 
+import Codigos.Cliente;
+import Codigos.ManipuladorArquivos;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+
 /**
  *
  * @author Madalena
@@ -55,6 +65,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         comboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hardware", "Cliente", "Software" }));
+        comboBox1.setToolTipText("Selecione o item para ser exibido na área de texto");
         comboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBox1ActionPerformed(evt);
@@ -107,6 +118,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu4.add(menuVerHardware);
 
         menuVerCliente.setText("Cliente");
+        menuVerCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVerClienteActionPerformed(evt);
+            }
+        });
         jMenu4.add(menuVerCliente);
 
         menuVerSoftware.setText("Software");
@@ -199,6 +215,21 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         NovoCliente nc = new NovoCliente();
         nc.setVisible(true);
     }//GEN-LAST:event_menuNovoClienteActionPerformed
+
+    private void menuVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerClienteActionPerformed
+        // Carrega todo o conteudo do BD de clientes para a combobox
+        File arquivo = new File("/home/emmanuel/bdCliente.bin");
+        ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+        ArrayList<Cliente> bdCli = new ArrayList<Cliente>();
+        bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+        //Tenta fechar o outputsteam. Se não der certo no software, melhor tentar alguma coisa
+        try {
+            leitor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        comboBox1.setModel(new DefaultComboBoxModel(bdCli.toArray()));
+    }//GEN-LAST:event_menuVerClienteActionPerformed
 
     /**
      * @param args the command line arguments
