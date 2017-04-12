@@ -34,13 +34,19 @@ public class ManipuladorArquivos {
                 out = new ObjectOutputStream(fos) {
                     @Override
                     protected void writeStreamHeader() {
-                        //System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOO XANAINA");
+                        //
                         // do not write a header
                     }
                 };
             } else {
-                FileOutputStream fos = new FileOutputStream(arquivo, append);
-                out = new ObjectOutputStream(fos);
+               FileOutputStream fos = new FileOutputStream(arquivo, append);
+               out = new ObjectOutputStream(fos){
+                   @Override
+                    protected void writeStreamHeader() {
+                        //Tentando não escrever um header aqui também
+                        // do not write a header
+                    }
+               };
             }
              
         } catch (IOException erro) {

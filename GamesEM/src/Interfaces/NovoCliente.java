@@ -156,8 +156,12 @@ public class NovoCliente extends javax.swing.JFrame {
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
         File arquivo = new File("/home/emmanuel/bdCliente.bin");//Instancia novo arquivo para o banco de dados de clientes
+<<<<<<< Updated upstream
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
         ArrayList<Cliente> bdCli = new ArrayList<>();
+=======
+        ObjectOutputStream escritor = null;
+>>>>>>> Stashed changes
         //Instancia um cliente novo e seta os valores dos text fields
         Cliente novoCli = new Cliente();
         novoCli.setNome(textFieldNome.getText());
@@ -165,6 +169,7 @@ public class NovoCliente extends javax.swing.JFrame {
         novoCli.setEndereco(textFieldEndereco.getText());
         novoCli.setCpf(Integer.parseInt(tfCPF.getText()));
         novoCli.setnCartaoCredito(Integer.parseInt(tfCartao.getText()));
+<<<<<<< Updated upstream
         //Se arquivo ainda não existe, cria um novo
         if(!arquivo.exists())
         {
@@ -196,6 +201,25 @@ public class NovoCliente extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(NovoCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+=======
+        //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
+        ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+        //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
+        ArrayList<Cliente>bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+        if(bdCli == null)
+            bdCli = new ArrayList<>();
+        //Adiciona o novo cliente na lista do banco de dados
+        bdCli.add(novoCli);
+        if(leitor!=null)
+            try {
+                leitor.close();
+        } catch (IOException ex) {
+            System.out.println("Houve algum problema fechando o leitor");
+        }
+        //Usa o escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
+        escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
+        ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
+>>>>>>> Stashed changes
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
