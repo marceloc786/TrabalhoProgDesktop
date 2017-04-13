@@ -10,6 +10,14 @@ package Codigos;
  * @author emmanuel
  */
 
+/*
+
+ Usar métodos estáticos dessa classe para manipular os arquivos nas janelas.
+ O arquivo será criado e fechado na classe que estiver o manipulando, reunindo aqui
+ Apenas os métodos para escrever e ler a ArrayList no arquivo binário
+
+*/
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -23,16 +31,10 @@ public class ManipuladorArquivos {
         try {
            if (arquivo.exists()) {
                 FileOutputStream fos = new FileOutputStream(arquivo, append);
-                out = new ObjectOutputStream(fos) {
-                    @Override
-                    protected void writeStreamHeader() {
-                        //System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOO XANAINA");
-                        // do not write a header
-                    }
-                };
+                out = new ObjectOutputStream(fos);//O Override de não escrever header foi apagado pra ver se o erro para.
             } else {
-                FileOutputStream fos = new FileOutputStream(arquivo, append);
-                out = new ObjectOutputStream(fos);
+               FileOutputStream fos = new FileOutputStream(arquivo, append);
+               out = new ObjectOutputStream(fos);
             }
              
         } catch (IOException erro) {

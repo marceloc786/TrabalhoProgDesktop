@@ -9,13 +9,13 @@ package Codigos;
  *
  * @author emmanuel
  */
-public class Cliente {
+public class Cliente implements java.io.Serializable {
     private String nome;
     private String endereco;
     private int cep;
     private int cpf;
     private int nCartaoCredito;
-
+    
     /**
      * @return the nome
      */
@@ -85,4 +85,6 @@ public class Cliente {
     public void setnCartaoCredito(int nCartaoCredito) {
         this.nCartaoCredito = nCartaoCredito;
     }
+    
+    
 }
