@@ -9,7 +9,7 @@ package Codigos;
  *
  * @author emmanuel
  */
-public class Hardware {
+public class Hardware implements java.io.Serializable{
     private String nomePeca;
     private String marca;
     private float preco;

@@ -9,7 +9,7 @@ package Codigos;
  *
  * @author emmanuel
  */
-public class Software {
+public class Software implements java.io.Serializable{
     private String nomeProduto;
     private String plataforma;
     private String produtora;

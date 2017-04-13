@@ -5,6 +5,12 @@
  */
 package Interfaces;
 
+import Codigos.Hardware;
+import Codigos.ManipuladorArquivos;
+import java.io.File;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
 /**
  *
  * @author emmanuel
@@ -28,10 +34,10 @@ public class NovoHardware extends javax.swing.JFrame {
     private void initComponents() {
 
         textFieldNome = new javax.swing.JTextField();
-        textFieldEndereco = new javax.swing.JTextField();
-        tfCep = new javax.swing.JTextField();
-        tfCPF = new javax.swing.JTextField();
-        tfCartao = new javax.swing.JTextField();
+        textFieldMarca = new javax.swing.JTextField();
+        textFieldPreco = new javax.swing.JTextField();
+        textFieldPlataforma = new javax.swing.JTextField();
+        textFieldDescricao = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -42,7 +48,7 @@ public class NovoHardware extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tfCep.setText(" ");
+        textFieldPreco.setText(" ");
 
         jLabel1.setText("Nome do Produto");
 
@@ -55,6 +61,11 @@ public class NovoHardware extends javax.swing.JFrame {
         jLabel5.setText("Descrição");
 
         btnSalva.setText("Salva");
+        btnSalva.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvaActionPerformed(evt);
+            }
+        });
 
         btnCancela.setText("Cancela");
         btnCancela.addActionListener(new java.awt.event.ActionListener() {
@@ -80,17 +91,17 @@ public class NovoHardware extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(tfCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                .addComponent(tfCPF, javax.swing.GroupLayout.Alignment.LEADING))))
+                                .addComponent(textFieldDescricao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                                .addComponent(textFieldPlataforma, javax.swing.GroupLayout.Alignment.LEADING))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(105, 105, 105)
                         .addComponent(btnCancela, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textFieldMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -105,19 +116,19 @@ public class NovoHardware extends javax.swing.JFrame {
                         .addComponent(textFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -133,6 +144,30 @@ public class NovoHardware extends javax.swing.JFrame {
         this.setVisible(false);
         this.dispose();
     }//GEN-LAST:event_btnCancelaActionPerformed
+
+    private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
+        File arquivo = new File("/Users/mino/Documents/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
+        //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
+        ArrayList<Hardware> bdHard = null;
+        ObjectOutputStream escritor = null;
+        //Instancia um cliente novo e seta os valores dos text fields
+        Hardware novoHard = new Hardware();
+        novoHard.setNomePeca (textFieldNome.getText());
+        novoHard.setMarca(textFieldMarca.getText());
+        novoHard.setPreco(Float.parseFloat((textFieldPreco.getText())));
+        novoHard.setPlataforma(textFieldPlataforma.getText());
+        novoHard.setDescricao(textFieldDescricao.getText());
+        //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
+        bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
+        if(bdHard == null)
+            bdHard = new ArrayList<>();
+        //Adiciona o novo cliente na lista do banco de dados
+        bdHard.add(novoHard);
+        //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
+        escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
+        ManipuladorArquivos.EscreveObjeto(escritor, bdHard, true);
+        this.dispose();
+    }//GEN-LAST:event_btnSalvaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,10 +213,10 @@ public class NovoHardware extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField textFieldEndereco;
+    private javax.swing.JTextField textFieldDescricao;
+    private javax.swing.JTextField textFieldMarca;
     private javax.swing.JTextField textFieldNome;
-    private javax.swing.JTextField tfCPF;
-    private javax.swing.JTextField tfCartao;
-    private javax.swing.JTextField tfCep;
+    private javax.swing.JTextField textFieldPlataforma;
+    private javax.swing.JTextField textFieldPreco;
     // End of variables declaration//GEN-END:variables
 }

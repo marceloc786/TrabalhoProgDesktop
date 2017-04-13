@@ -37,11 +37,11 @@
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tfCep" alignment="0" min="-2" pref="123" max="-2" attributes="0"/>
+                          <Component id="textFieldPreco" alignment="0" min="-2" pref="123" max="-2" attributes="0"/>
                           <Component id="textFieldNome" min="-2" pref="235" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="tfCartao" alignment="0" pref="169" max="32767" attributes="0"/>
-                              <Component id="tfCPF" alignment="0" max="32767" attributes="0"/>
+                              <Component id="textFieldDescricao" alignment="0" pref="169" max="32767" attributes="0"/>
+                              <Component id="textFieldPlataforma" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -51,7 +51,7 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="textFieldEndereco" min="-2" pref="235" max="-2" attributes="0"/>
+                      <Component id="textFieldMarca" min="-2" pref="235" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="77" max="32767" attributes="0"/>
@@ -71,22 +71,22 @@
                       <Component id="textFieldNome" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="textFieldEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tfCep" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldPreco" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tfCPF" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldPlataforma" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tfCartao" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="textFieldDescricao" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -104,16 +104,16 @@
   <SubComponents>
     <Component class="javax.swing.JTextField" name="textFieldNome">
     </Component>
-    <Component class="javax.swing.JTextField" name="textFieldEndereco">
+    <Component class="javax.swing.JTextField" name="textFieldMarca">
     </Component>
-    <Component class="javax.swing.JTextField" name="tfCep">
+    <Component class="javax.swing.JTextField" name="textFieldPreco">
       <Properties>
         <Property name="text" type="java.lang.String" value=" "/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="tfCPF">
+    <Component class="javax.swing.JTextField" name="textFieldPlataforma">
     </Component>
-    <Component class="javax.swing.JTextField" name="tfCartao">
+    <Component class="javax.swing.JTextField" name="textFieldDescricao">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
@@ -144,6 +144,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Salva"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnCancela">
       <Properties>
