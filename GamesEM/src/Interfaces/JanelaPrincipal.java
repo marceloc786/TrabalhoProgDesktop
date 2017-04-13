@@ -6,6 +6,7 @@
 package Interfaces;
 
 import Codigos.Cliente;
+import Codigos.ImprimeObjeto;
 import Codigos.ManipuladorArquivos;
 import java.awt.Component;
 import java.io.File;
@@ -203,7 +204,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCarregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarActionPerformed
-        // TODO add your handling code here:
+        String textoCarregado = ImprimeObjeto.imprimeConteudo(comboBox1.getSelectedItem(),flagTipoObj);
+        jTextArea1.setText(textoCarregado);
     }//GEN-LAST:event_btnCarregarActionPerformed
 
     private void menuVerSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerSoftwareActionPerformed
@@ -250,6 +252,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         }
         };
         comboBox1.setRenderer(novoRender);
+        flagTipoObj = 2;
     }//GEN-LAST:event_menuVerClienteActionPerformed
 
     /**
@@ -309,4 +312,5 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuVerHardware;
     private javax.swing.JMenuItem menuVerSoftware;
     // End of variables declaration//GEN-END:variables
+    private int flagTipoObj = 0; // 0 - padrao; 1 - Hardware, 2 - Cliente, 3 - Software
 }
