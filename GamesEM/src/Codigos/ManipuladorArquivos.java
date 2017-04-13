@@ -31,22 +31,10 @@ public class ManipuladorArquivos {
         try {
            if (arquivo.exists()) {
                 FileOutputStream fos = new FileOutputStream(arquivo, append);
-                out = new ObjectOutputStream(fos) {
-                    @Override
-                    protected void writeStreamHeader() {
-                        //
-                        // do not write a header
-                    }
-                };
+                out = new ObjectOutputStream(fos);//O Override de não escrever header foi apagado pra ver se o erro para.
             } else {
                FileOutputStream fos = new FileOutputStream(arquivo, append);
-               out = new ObjectOutputStream(fos){
-                   @Override
-                    protected void writeStreamHeader() {
-                        //Tentando não escrever um header aqui também
-                        // do not write a header
-                    }
-               };
+               out = new ObjectOutputStream(fos);
             }
              
         } catch (IOException erro) {

@@ -15,7 +15,7 @@ public class Cliente implements java.io.Serializable {
     private int cep;
     private int cpf;
     private int nCartaoCredito;
-
+    
     /**
      * @return the nome
      */
@@ -85,4 +85,6 @@ public class Cliente implements java.io.Serializable {
     public void setnCartaoCredito(int nCartaoCredito) {
         this.nCartaoCredito = nCartaoCredito;
     }
+    
+    
 }

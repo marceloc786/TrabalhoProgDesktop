@@ -7,6 +7,7 @@ package Interfaces;
 
 import Codigos.Cliente;
 import Codigos.ManipuladorArquivos;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 
 /**
  *
@@ -227,8 +230,26 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             leitor.close();
         } catch (IOException ex) {
             Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        comboBox1.setModel(new DefaultComboBoxModel(bdCli.toArray()));
+        }
+        DefaultComboBoxModel comboBAtualizada = new DefaultComboBoxModel(bdCli.toArray());
+        comboBox1.setModel(comboBAtualizada);
+        DefaultListCellRenderer novoRender = new DefaultListCellRenderer(){
+            @Override  
+        public Component getListCellRendererComponent(
+            JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus)
+        {
+            super.getListCellRendererComponent(list, value, index,
+                isSelected, cellHasFocus);
+
+                if(value != null){
+                 Cliente cli = (Cliente)value;
+                 setText( cli.getNome());
+                }
+            return this;
+        }
+        };
+        comboBox1.setRenderer(novoRender);
     }//GEN-LAST:event_menuVerClienteActionPerformed
 
     /**
