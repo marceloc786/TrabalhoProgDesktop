@@ -12,12 +12,14 @@ import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -87,14 +89,29 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         btnApagar.setFocusable(false);
         btnApagar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnApagar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApagarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Selecione o item");
 
         jLabel2.setText("Selecione a Ação");
 
         btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnNovo.setText("Adicionar");
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Arquivo");
 
@@ -254,6 +271,88 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         comboBox1.setRenderer(novoRender);
         flagTipoObj = 2;
     }//GEN-LAST:event_menuVerClienteActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+       // Implementar edição de conteúdo aqui
+       switch(flagTipoObj){
+            case 1: {
+                //Implementar para Hardware
+            }
+            case 2: {
+                //Edita um Cliente
+                Cliente cl = (Cliente)comboBox1.getSelectedItem();
+                int index = comboBox1.getSelectedIndex();
+                EditorClientes edit = new EditorClientes(cl.getNome(),cl.getEndereco(),cl.getCpf(),cl.getnCartaoCredito(),cl.getCep(),index);
+                edit.setVisible(true);
+                break;
+            }
+            case 3: {
+                //Implementar para software
+            }
+            default:{
+                //Se não foi carregado nenhum conteúdo e a Combo Box ainda está com Hardware, Software e Cliente
+                JOptionPane.showMessageDialog(this, "Não foi carregado nenhum banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
+        //Deleta o conteúdo selecionado na ComboBox.
+        switch(flagTipoObj){
+            case 1: {
+                //Implementar para Hardware
+            }
+            case 2: {
+                //Deleta um Cliente
+                //Lê arquivo de banco de dados
+                File arquivo = new File("/home/emmanuel/bdCliente.bin");
+                //Cria Leitor para o banco de dados e carrega para a ArrayList assim como se estivesse instanciando
+                ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+                ArrayList<Cliente> bdCli = new ArrayList<Cliente>();
+                bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+                //Remove o o conteúdo selecionado pela combobox da ArrayList
+                bdCli.remove(comboBox1.getSelectedIndex());
+                try {
+                        leitor.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                //Instancia um escritor e escreve a nova ArrayList no banco de dados. Depois fecha.
+                ObjectOutputStream escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
+                ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
+            try {
+                escritor.close();
+            } catch (IOException ex) {
+                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                JOptionPane.showMessageDialog(this, "Item de cliente apagado. Por favor, recarregue o banco de dados.");
+                break;
+            }
+            case 3: {
+                //Implementar para software
+            }
+            default:{
+                //Se não foi carregado nenhum conteúdo e a Combo Box ainda está com Hardware, Software e Cliente
+                JOptionPane.showMessageDialog(this, "Não foi carregado nenhum banco de dados", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+    }//GEN-LAST:event_btnApagarActionPerformed
+
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        switch(flagTipoObj){
+            case 1:{}
+            case 2:{
+                NovoCliente nc = new NovoCliente();
+                nc.setVisible(true);
+                break;
+            }
+            case 3:{}
+            default:{
+                System.out.println("Calma que já que nois implementa");
+            }
+        }
+    }//GEN-LAST:event_btnNovoActionPerformed
 
     /**
      * @param args the command line arguments

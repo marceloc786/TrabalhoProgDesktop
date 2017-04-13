@@ -22,7 +22,7 @@ public class ImprimeObjeto {
             case 2:
             {
                 cli = (Cliente)obj;
-                impressao = "Nome do Cliente "+cli.getNome()+"\n Endereco do Cliente"+cli.getEndereco()+"\n CPF do Cliente"+cli.getCpf();
+                impressao = "Nome do Cliente: "+cli.getNome()+"\nEndereco do Cliente: "+cli.getEndereco()+"\nCPF do Cliente: "+cli.getCpf();
             }
             case 3:
                 //Implementar
