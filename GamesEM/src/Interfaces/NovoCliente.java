@@ -167,8 +167,7 @@ public class NovoCliente extends javax.swing.JFrame {
         novoCli.setCpf(Integer.parseInt(tfCPF.getText()));
         novoCli.setnCartaoCredito(Integer.parseInt(tfCartao.getText()));
         //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
-        ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
-        bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+        bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
         if(bdCli == null)
             bdCli = new ArrayList<>();
         //Adiciona o novo cliente na lista do banco de dados
@@ -176,7 +175,6 @@ public class NovoCliente extends javax.swing.JFrame {
         //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
         escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
         ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
-        
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
