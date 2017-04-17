@@ -18,14 +18,23 @@ public class ImprimeObjeto {
         String impressao = null;
         switch(operacao){
             case 1:
-                //Implementar
+            {
+                hard =(Hardware)obj;
+                impressao = "Nome do Hardware: " +hard.getNomePeca()+"\nPlataforma: "+hard.getPlataforma()+"\nFabricante: "+hard.getMarca()+"Descrição: "+hard.getDescricao();
+                break;
+            }
             case 2:
             {
                 cli = (Cliente)obj;
                 impressao = "Nome do Cliente: "+cli.getNome()+"\nEndereco do Cliente: "+cli.getEndereco()+"\nCPF do Cliente: "+cli.getCpf();
+                break;
             }
             case 3:
-                //Implementar
+            {
+                soft = (Software)obj;
+                impressao = "Nome do Software: "+soft.getNomeProduto()+"\nProdutora:"+soft.getProdutora()+"\nPlataforma: "+soft.getPlataforma()+"\nDescrição:"+soft.getDescricao();
+                break;
+            }
         }
         return impressao;
     }

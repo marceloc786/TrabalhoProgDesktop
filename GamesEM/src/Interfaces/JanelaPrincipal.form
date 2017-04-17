@@ -18,6 +18,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Hardware"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuNovoHardwareActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="menuNovoCliente">
                   <Properties>
@@ -31,6 +34,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Software"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuNovoSoftwareActionPerformed"/>
+                  </Events>
                 </MenuItem>
               </SubComponents>
             </Menu>
@@ -43,6 +49,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Hardware"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuVerHardwareActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="menuVerCliente">
                   <Properties>

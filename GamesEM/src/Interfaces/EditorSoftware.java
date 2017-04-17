@@ -5,8 +5,8 @@
  */
 package Interfaces;
 
-import Codigos.Hardware;
 import Codigos.ManipuladorArquivos;
+import Codigos.Software;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ import java.util.ArrayList;
  *
  * @author emmanuel
  */
-public class NovoHardware extends javax.swing.JFrame {
+public class EditorSoftware extends javax.swing.JFrame {
 
     /**
      * Creates new form NovoCliente
      */
-    public NovoHardware() {
+    public EditorSoftware() {
         initComponents();
     }
 
@@ -34,9 +34,9 @@ public class NovoHardware extends javax.swing.JFrame {
     private void initComponents() {
 
         textFieldNome = new javax.swing.JTextField();
-        textFieldMarca = new javax.swing.JTextField();
-        textFieldPreco = new javax.swing.JTextField();
         textFieldPlataforma = new javax.swing.JTextField();
+        textFieldProdutora = new javax.swing.JTextField();
+        textFieldPreco = new javax.swing.JTextField();
         textFieldDescricao = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -48,17 +48,17 @@ public class NovoHardware extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        textFieldPreco.setText(" ");
+        textFieldProdutora.setText(" ");
 
         jLabel1.setText("Nome do Produto");
 
-        jLabel2.setText("Fabricante");
+        jLabel2.setText("Plataforma");
 
-        jLabel3.setText("Preço");
+        jLabel3.setText("Produtora");
 
-        jLabel4.setText("Plataforma");
+        jLabel4.setText("Preço");
 
-        jLabel5.setText("Descrição");
+        jLabel5.setText("Descrição:");
 
         btnSalva.setText("Salva");
         btnSalva.addActionListener(new java.awt.event.ActionListener() {
@@ -91,18 +91,18 @@ public class NovoHardware extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldProdutora, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(textFieldDescricao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                .addComponent(textFieldPlataforma, javax.swing.GroupLayout.Alignment.LEADING))))
+                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(105, 105, 105)
                         .addComponent(btnCancela, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(77, Short.MAX_VALUE))
+                        .addComponent(textFieldPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,15 +116,15 @@ public class NovoHardware extends javax.swing.JFrame {
                         .addComponent(textFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFieldMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldProdutora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFieldPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -146,26 +146,26 @@ public class NovoHardware extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/home/emmanuel/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
+        File arquivo = new File("/home/emmanuel/bdSoftware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
-        ArrayList<Hardware> bdHard = null;
+        ArrayList<Software> bdSoft = null;
         ObjectOutputStream escritor = null;
         //Instancia um cliente novo e seta os valores dos text fields
-        Hardware novoHard = new Hardware();
-        novoHard.setNomePeca (textFieldNome.getText());
-        novoHard.setMarca(textFieldMarca.getText());
-        novoHard.setPreco(Float.parseFloat((textFieldPreco.getText())));
+        Software novoHard = new Software();
+        novoHard.setNomeProduto(textFieldNome.getText());
         novoHard.setPlataforma(textFieldPlataforma.getText());
+        novoHard.setProdutora((textFieldProdutora.getText()));
+        novoHard.setPreco(Float.parseFloat(textFieldPreco.getText()));
         novoHard.setDescricao(textFieldDescricao.getText());
         //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
-        bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
-        if(bdHard == null)
-            bdHard = new ArrayList<>();
+        bdSoft = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
+        if(bdSoft == null)
+            bdSoft = new ArrayList<>();
         //Adiciona o novo cliente na lista do banco de dados
-        bdHard.add(novoHard);
+        bdSoft.add(novoHard);
         //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
         escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
-        ManipuladorArquivos.EscreveObjeto(escritor, bdHard, true);
+        ManipuladorArquivos.EscreveObjeto(escritor, bdSoft, true);
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
@@ -186,21 +186,23 @@ public class NovoHardware extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorSoftware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorSoftware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorSoftware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditorSoftware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NovoHardware().setVisible(true);
+                new EditorSoftware().setVisible(true);
             }
         });
     }
@@ -214,9 +216,9 @@ public class NovoHardware extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField textFieldDescricao;
-    private javax.swing.JTextField textFieldMarca;
     private javax.swing.JTextField textFieldNome;
     private javax.swing.JTextField textFieldPlataforma;
     private javax.swing.JTextField textFieldPreco;
+    private javax.swing.JTextField textFieldProdutora;
     // End of variables declaration//GEN-END:variables
 }

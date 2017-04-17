@@ -146,7 +146,7 @@ public class NovoSoftware extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/Users/mino/Documents/bdSoftware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
+        File arquivo = new File("/home/emmanuel/bdSoftware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
         ArrayList<Software> bdSoft = null;
         ObjectOutputStream escritor = null;

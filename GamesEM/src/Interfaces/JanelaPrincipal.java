@@ -6,8 +6,10 @@
 package Interfaces;
 
 import Codigos.Cliente;
+import Codigos.Hardware;
 import Codigos.ImprimeObjeto;
 import Codigos.ManipuladorArquivos;
+import Codigos.Software;
 import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
@@ -118,6 +120,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu3.setText("Adicionar");
 
         menuNovoHardware.setText("Hardware");
+        menuNovoHardware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNovoHardwareActionPerformed(evt);
+            }
+        });
         jMenu3.add(menuNovoHardware);
 
         menuNovoCliente.setText("Cliente");
@@ -129,6 +136,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu3.add(menuNovoCliente);
 
         menuNovoSoftware.setText("Software");
+        menuNovoSoftware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuNovoSoftwareActionPerformed(evt);
+            }
+        });
         jMenu3.add(menuNovoSoftware);
 
         jMenu1.add(jMenu3);
@@ -136,6 +148,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jMenu4.setText("Carregar");
 
         menuVerHardware.setText("Hardware");
+        menuVerHardware.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVerHardwareActionPerformed(evt);
+            }
+        });
         jMenu4.add(menuVerHardware);
 
         menuVerCliente.setText("Cliente");
@@ -226,7 +243,37 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCarregarActionPerformed
 
     private void menuVerSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerSoftwareActionPerformed
-        // TODO add your handling code here:
+        // Carrega todo o conteudo do BD de software para a combobox
+        File arquivo = new File("/home/emmanuel/bdSoftware.bin");
+        ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+        ArrayList<Software> bdHard = new ArrayList<Software>();
+        bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+        //Tenta fechar o outputsteam. Se não der certo no software, melhor tentar alguma coisa
+        try {
+            leitor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel comboBAtualizada = new DefaultComboBoxModel(bdHard.toArray());
+        comboBox1.setModel(comboBAtualizada);
+        DefaultListCellRenderer novoRender = new DefaultListCellRenderer(){
+            @Override  
+        public Component getListCellRendererComponent(
+            JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus)
+        {
+            super.getListCellRendererComponent(list, value, index,
+                isSelected, cellHasFocus);
+
+                if(value != null){
+                 Software cli = (Software)value;
+                 setText( cli.getNomeProduto());
+                }
+            return this;
+        }
+        };
+        comboBox1.setRenderer(novoRender);
+        flagTipoObj = 3;
     }//GEN-LAST:event_menuVerSoftwareActionPerformed
 
     private void comboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBox1ActionPerformed
@@ -300,7 +347,30 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         //Deleta o conteúdo selecionado na ComboBox.
         switch(flagTipoObj){
             case 1: {
-                //Implementar para Hardware
+                //Deleta um Hardware
+                //Lê arquivo de banco de dados
+                File arquivo = new File("/home/emmanuel/bdHardware.bin");
+                //Cria Leitor para o banco de dados e carrega para a ArrayList assim como se estivesse instanciando
+                ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+                ArrayList<Hardware> bdCli = new ArrayList<Hardware>();
+                bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+                //Remove o o conteúdo selecionado pela combobox da ArrayList
+                bdCli.remove(comboBox1.getSelectedIndex());
+                try {
+                        leitor.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                //Instancia um escritor e escreve a nova ArrayList no banco de dados. Depois fecha.
+                ObjectOutputStream escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
+                ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
+            try {
+                escritor.close();
+            } catch (IOException ex) {
+                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                JOptionPane.showMessageDialog(this, "Item de Harware apagado. Por favor, recarregue o banco de dados.");
+                break;
             }
             case 2: {
                 //Deleta um Cliente
@@ -329,7 +399,30 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 break;
             }
             case 3: {
-                //Implementar para software
+                //Deleta um Software
+                //Lê arquivo de banco de dados
+                File arquivo = new File("/home/emmanuel/bdSoftware.bin");
+                //Cria Leitor para o banco de dados e carrega para a ArrayList assim como se estivesse instanciando
+                ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+                ArrayList<Software> bdCli = new ArrayList<Software>();
+                bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+                //Remove o o conteúdo selecionado pela combobox da ArrayList
+                bdCli.remove(comboBox1.getSelectedIndex());
+                try {
+                        leitor.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                //Instancia um escritor e escreve a nova ArrayList no banco de dados. Depois fecha.
+                ObjectOutputStream escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
+                ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
+            try {
+                escritor.close();
+            } catch (IOException ex) {
+                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                JOptionPane.showMessageDialog(this, "Item de Software apagado. Por favor, recarregue o banco de dados.");
+                break;
             }
             default:{
                 //Se não foi carregado nenhum conteúdo e a Combo Box ainda está com Hardware, Software e Cliente
@@ -353,6 +446,50 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void menuNovoHardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNovoHardwareActionPerformed
+        NovoHardware nh = new NovoHardware();
+        nh.setVisible(true);
+    }//GEN-LAST:event_menuNovoHardwareActionPerformed
+
+    private void menuNovoSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNovoSoftwareActionPerformed
+       NovoSoftware ns = new NovoSoftware();
+        ns.setVisible(true);
+    }//GEN-LAST:event_menuNovoSoftwareActionPerformed
+
+    private void menuVerHardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerHardwareActionPerformed
+        // Carrega todo o conteudo do BD de software para a combobox
+        File arquivo = new File("/home/emmanuel/bdHardware.bin");
+        ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
+        ArrayList<Hardware> bdHard = new ArrayList<Hardware>();
+        bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
+        //Tenta fechar o outputsteam. Se não der certo no software, melhor tentar alguma coisa
+        try {
+            leitor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DefaultComboBoxModel comboBAtualizada = new DefaultComboBoxModel(bdHard.toArray());
+        comboBox1.setModel(comboBAtualizada);
+        DefaultListCellRenderer novoRender = new DefaultListCellRenderer(){
+            @Override  
+        public Component getListCellRendererComponent(
+            JList list, Object value, int index,
+            boolean isSelected, boolean cellHasFocus)
+        {
+            super.getListCellRendererComponent(list, value, index,
+                isSelected, cellHasFocus);
+
+                if(value != null){
+                 Hardware cli = (Hardware)value;
+                 setText( cli.getNomePeca());
+                }
+            return this;
+        }
+        };
+        comboBox1.setRenderer(novoRender);
+        flagTipoObj = 1;
+    }//GEN-LAST:event_menuVerHardwareActionPerformed
 
     /**
      * @param args the command line arguments
