@@ -146,7 +146,7 @@ public class NovoHardware extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/home/emmanuel/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
+        File arquivo = new File("/Users/marcelo/Documents/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
         ArrayList<Hardware> bdHard = null;
         ObjectOutputStream escritor = null;

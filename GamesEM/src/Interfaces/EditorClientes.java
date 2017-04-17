@@ -167,7 +167,7 @@ public class EditorClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/home/emmanuel/bdCliente.bin");//Instancia novo arquivo para o banco de dados de clientes
+        File arquivo = new File("/Users/marcelo/Documents/bdCliente.bin");//Instancia novo arquivo para o banco de dados de clientes
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
         ArrayList<Cliente> bdCli = null;
         ObjectOutputStream escritor = null;

@@ -20,7 +20,7 @@ public class ImprimeObjeto {
             case 1:
             {
                 hard =(Hardware)obj;
-                impressao = "Nome do Hardware: " +hard.getNomePeca()+"\nPlataforma: "+hard.getPlataforma()+"\nFabricante: "+hard.getMarca()+"Descrição: "+hard.getDescricao();
+                impressao = "Nome do Hardware: " +hard.getNomePeca()+"\nPlataforma: "+hard.getPlataforma()+"\nFabricante: "+hard.getMarca()+"\nPreço: "+Float.toString(hard.getPreco())+"\nDescrição: "+hard.getDescricao();
                 break;
             }
             case 2:
@@ -32,7 +32,7 @@ public class ImprimeObjeto {
             case 3:
             {
                 soft = (Software)obj;
-                impressao = "Nome do Software: "+soft.getNomeProduto()+"\nProdutora:"+soft.getProdutora()+"\nPlataforma: "+soft.getPlataforma()+"\nDescrição:"+soft.getDescricao();
+                impressao = "Nome do Software: "+soft.getNomeProduto()+"\nProdutora: "+soft.getProdutora()+"\nPlataforma: "+soft.getPlataforma()+"\nPreço: "+Float.toString(soft.getPreco())+"\nDescrição: "+soft.getDescricao();
                 break;
             }
         }

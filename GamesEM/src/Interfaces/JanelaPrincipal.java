@@ -25,7 +25,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Madalena
+ * @author marcelo
  */
 public class JanelaPrincipal extends javax.swing.JFrame {
 
@@ -244,7 +244,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     private void menuVerSoftwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerSoftwareActionPerformed
         // Carrega todo o conteudo do BD de software para a combobox
-        File arquivo = new File("/home/emmanuel/bdSoftware.bin");
+        File arquivo = new File("/Users/marcelo/Documents/bdSoftware.bin");
         ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
         ArrayList<Software> bdHard = new ArrayList<Software>();
         bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
@@ -287,7 +287,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     private void menuVerClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerClienteActionPerformed
         // Carrega todo o conteudo do BD de clientes para a combobox
-        File arquivo = new File("/home/emmanuel/bdCliente.bin");
+        File arquivo = new File("/Users/marcelo/Documents/bdCliente.bin");
         ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
         ArrayList<Cliente> bdCli = new ArrayList<Cliente>();
         bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);
@@ -323,7 +323,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
        // Implementar edição de conteúdo aqui
        switch(flagTipoObj){
             case 1: {
-                //Implementar para Hardware
+                //Edita um Hardware
+                Hardware har = (Hardware)comboBox1.getSelectedItem();
+                int index = comboBox1.getSelectedIndex();
+                EditorHardware edit = new EditorHardware(har.getNomePeca(),har.getMarca(),har.getPreco(),har.getPlataforma(),har.getDescricao(),index);
+                edit.setVisible(true);
+                break;
             }
             case 2: {
                 //Edita um Cliente
@@ -335,6 +340,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
             case 3: {
                 //Implementar para software
+                Software sof = (Software)comboBox1.getSelectedItem();
+                int index = comboBox1.getSelectedIndex();
+                EditorSoftware edit = new EditorSoftware(sof.getNomeProduto(),sof.getPlataforma(),sof.getProdutora(),sof.getPreco(),sof.getDescricao(),index);
+                edit.setVisible(true);
+                break;
             }
             default:{
                 //Se não foi carregado nenhum conteúdo e a Combo Box ainda está com Hardware, Software e Cliente
@@ -349,7 +359,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             case 1: {
                 //Deleta um Hardware
                 //Lê arquivo de banco de dados
-                File arquivo = new File("/home/emmanuel/bdHardware.bin");
+                File arquivo = new File("/Users/marcelo/Documents/bdHardware.bin");
                 //Cria Leitor para o banco de dados e carrega para a ArrayList assim como se estivesse instanciando
                 ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
                 ArrayList<Hardware> bdCli = new ArrayList<Hardware>();
@@ -375,7 +385,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             case 2: {
                 //Deleta um Cliente
                 //Lê arquivo de banco de dados
-                File arquivo = new File("/home/emmanuel/bdCliente.bin");
+                File arquivo = new File("/Users/marcelo/Documents/bdCliente.bin");
                 //Cria Leitor para o banco de dados e carrega para a ArrayList assim como se estivesse instanciando
                 ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
                 ArrayList<Cliente> bdCli = new ArrayList<Cliente>();
@@ -401,7 +411,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             case 3: {
                 //Deleta um Software
                 //Lê arquivo de banco de dados
-                File arquivo = new File("/home/emmanuel/bdSoftware.bin");
+                File arquivo = new File("/Users/marcelo/Documents/bdSoftware.bin");
                 //Cria Leitor para o banco de dados e carrega para a ArrayList assim como se estivesse instanciando
                 ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
                 ArrayList<Software> bdCli = new ArrayList<Software>();
@@ -459,7 +469,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
     private void menuVerHardwareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVerHardwareActionPerformed
         // Carrega todo o conteudo do BD de software para a combobox
-        File arquivo = new File("/home/emmanuel/bdHardware.bin");
+        File arquivo = new File("/Users/marcelo/Documents/bdHardware.bin");
         ObjectInputStream leitor = ManipuladorArquivos.CriaLeitorBinario(arquivo);
         ArrayList<Hardware> bdHard = new ArrayList<Hardware>();
         bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(leitor);

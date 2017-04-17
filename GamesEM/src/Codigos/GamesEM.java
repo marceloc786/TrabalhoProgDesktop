@@ -8,7 +8,7 @@ package Codigos;
 //
 /**
  *
- * @author Marcelo
+ * @author marcelo
  */
 public class GamesEM {
 

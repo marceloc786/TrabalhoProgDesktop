@@ -8,8 +8,12 @@ package Interfaces;
 import Codigos.ManipuladorArquivos;
 import Codigos.Software;
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,8 +24,18 @@ public class EditorSoftware extends javax.swing.JFrame {
     /**
      * Creates new form NovoCliente
      */
-    public EditorSoftware() {
+    public EditorSoftware(String nomeProduto, String plataforma, String produtora, float preco, String descricao, int indice) {
         initComponents();
+        indiceSoft = indice;
+        textFieldNome.setText(nomeProduto);
+        textFieldPlataforma.setText(plataforma);
+        textFieldProdutora.setText(produtora);
+        textFieldPreco.setText(Float.toString(preco));
+        textFieldDescricao.setText(descricao);
+    }
+    
+    private EditorSoftware() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -146,26 +160,27 @@ public class EditorSoftware extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/home/emmanuel/bdSoftware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
+        File arquivo = new File("/Users/marcelo/Documents/bdSoftware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
         ArrayList<Software> bdSoft = null;
         ObjectOutputStream escritor = null;
-        //Instancia um cliente novo e seta os valores dos text fields
-        Software novoHard = new Software();
-        novoHard.setNomeProduto(textFieldNome.getText());
-        novoHard.setPlataforma(textFieldPlataforma.getText());
-        novoHard.setProdutora((textFieldProdutora.getText()));
-        novoHard.setPreco(Float.parseFloat(textFieldPreco.getText()));
-        novoHard.setDescricao(textFieldDescricao.getText());
         //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
         bdSoft = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
-        if(bdSoft == null)
-            bdSoft = new ArrayList<>();
-        //Adiciona o novo cliente na lista do banco de dados
-        bdSoft.add(novoHard);
+        //Edita os valores do textfield diretamente no item a ser editado na Array List
+        bdSoft.get(indiceSoft).setNomeProduto(textFieldNome.getText());
+        bdSoft.get(indiceSoft).setPlataforma(textFieldPlataforma.getText());
+        bdSoft.get(indiceSoft).setProdutora(textFieldProdutora.getText());
+        bdSoft.get(indiceSoft).setPreco(Float.parseFloat(textFieldPreco.getText()));
+        bdSoft.get(indiceSoft).setDescricao(textFieldDescricao.getText());
         //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
         escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
         ManipuladorArquivos.EscreveObjeto(escritor, bdSoft, true);
+        try {
+            escritor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(EditorSoftware.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(this, "Item de software editado. Por favor, recarregue o banco de dados.");
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
@@ -221,4 +236,5 @@ public class EditorSoftware extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldPreco;
     private javax.swing.JTextField textFieldProdutora;
     // End of variables declaration//GEN-END:variables
+    private int indiceSoft;
 }

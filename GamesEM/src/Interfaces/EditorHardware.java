@@ -8,8 +8,12 @@ package Interfaces;
 import Codigos.Hardware;
 import Codigos.ManipuladorArquivos;
 import java.io.File;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,10 +24,20 @@ public class EditorHardware extends javax.swing.JFrame {
     /**
      * Creates new form NovoCliente
      */
-    public EditorHardware() {
+    public EditorHardware(String nomePeca, String marca, float preco, String plataforma, String descricao, int indice) {
         initComponents();
+        indiceHard = indice;
+        textFieldNome.setText(nomePeca);
+        textFieldMarca.setText(marca);
+        textFieldPreco.setText(Float.toString(preco));
+        textFieldPlataforma.setText(plataforma);
+        textFieldDescricao.setText(descricao);
     }
-
+    
+    private EditorHardware() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -146,26 +160,27 @@ public class EditorHardware extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/home/emmanuel/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
+        File arquivo = new File("/Users/marcelo/Documents/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
         //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
         ArrayList<Hardware> bdHard = null;
         ObjectOutputStream escritor = null;
-        //Instancia um cliente novo e seta os valores dos text fields
-        Hardware novoHard = new Hardware();
-        novoHard.setNomePeca (textFieldNome.getText());
-        novoHard.setMarca(textFieldMarca.getText());
-        novoHard.setPreco(Float.parseFloat((textFieldPreco.getText())));
-        novoHard.setPlataforma(textFieldPlataforma.getText());
-        novoHard.setDescricao(textFieldDescricao.getText());
         //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
         bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
-        if(bdHard == null)
-            bdHard = new ArrayList<>();
-        //Adiciona o novo cliente na lista do banco de dados
-        bdHard.add(novoHard);
+        //Edita os valores do textfield diretamente no item a ser editado na Array List
+        bdHard.get(indiceHard).setNomePeca(textFieldNome.getText());
+        bdHard.get(indiceHard).setMarca(textFieldMarca.getText());
+        bdHard.get(indiceHard).setPreco(Float.parseFloat(textFieldPreco.getText()));
+        bdHard.get(indiceHard).setPlataforma(textFieldPlataforma.getText());
+        bdHard.get(indiceHard).setDescricao(textFieldDescricao.getText());
         //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
         escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
         ManipuladorArquivos.EscreveObjeto(escritor, bdHard, true);
+        try {
+            escritor.close();
+        } catch (IOException ex) {
+            Logger.getLogger(EditorHardware.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JOptionPane.showMessageDialog(this, "Item de hardware editado. Por favor, recarregue o banco de dados.");
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
@@ -221,4 +236,5 @@ public class EditorHardware extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldPlataforma;
     private javax.swing.JTextField textFieldPreco;
     // End of variables declaration//GEN-END:variables
+    private int indiceHard;
 }
