@@ -1,0 +1,2 @@
+﻿INSERT INTO clientes (nome,endereco,cep,cpf,cartao) VALUES ('Roque','Cornelho','123123','887745','882256');
+SELECT * FROM clientes;

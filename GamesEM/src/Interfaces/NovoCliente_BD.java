@@ -23,16 +23,51 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
-public class NovoCliente extends javax.swing.JFrame {
+public class NovoCliente_BD extends javax.swing.JFrame {
 
     /**
      * Creates new form NovoCliente
      */
-    public NovoCliente() {
+    public NovoCliente_BD() {
         initComponents();
+        AcessoAoBanco();
     }
     
+    //---------------------------Funções referentes ao banco de dados.
+    
+    //Função de acesso ao banco de dados.
+    
+    public boolean AcessoAoBanco(){
+        try{
+            String usuario = "postgres";
+            String senha = "postgres";
+            Class.forName("org.postgresql.Driver");
+            String urlConexao = "jdbc:postgresql://127.0.0.1/LojaDeGames";
+            conexao = DriverManager.getConnection(urlConexao, usuario, senha);
+            conexao.setAutoCommit(true); //O padrão normalmente é false. Estamos usando  o true por propósitos de teste
+            DatabaseMetaData dbmt = conexao.getMetaData();
+            System.out.println("Nome do BD: " + dbmt.getDatabaseProductName());
+            System.out.println("Versao do BD: " + dbmt.getDatabaseProductVersion());
+            System.out.println("URL: " + dbmt.getURL());
+            System.out.println("Driver: " + dbmt.getDriverName());
+            System.out.println("Versao Driver: " + dbmt.getDriverVersion());
+            System.out.println("Usuario: " + dbmt.getUserName());
+        }
+        catch(ClassNotFoundException erro)
+        {
+            System.out.println("Falha no carregamento do Driver "+erro);
+            return false;
+        }
+        catch(SQLException erro)
+        {
+            System.out.println("Falha na conexão, comando SQL" +erro);
+            return false;
+        }
+        return true;
+    }
     
 
     /**
@@ -157,26 +192,28 @@ public class NovoCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/Users/marcelo/Documents/bdCliente.bin");//Instancia novo arquivo para o banco de dados de clientes
-        //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
-        ArrayList<Cliente> bdCli = null;
-        ObjectOutputStream escritor = null;
-        //Instancia um cliente novo e seta os valores dos text fields
-        Cliente novoCli = new Cliente();
-        novoCli.setNome(textFieldNome.getText());
-        novoCli.setCep(Integer.parseInt(tfCep.getText()));
-        novoCli.setEndereco(textFieldEndereco.getText());
-        novoCli.setCpf(Integer.parseInt(tfCPF.getText()));
-        novoCli.setnCartaoCredito(Integer.parseInt(tfCartao.getText()));
-        //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
-        bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
-        if(bdCli == null)
-            bdCli = new ArrayList<>();
-        //Adiciona o novo cliente na lista do banco de dados
-        bdCli.add(novoCli);
-        //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
-        escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
-        ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
+        int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
+        int concorrencia = ResultSet.CONCUR_UPDATABLE;
+        try{
+        consulta = conexao.prepareCall("{call inserecliente(?,?,?,?,?)}", tipo, concorrencia);
+        //Implementar strings recebendo os valores dos campos de texto e do update sendo executado
+        String nome = textFieldNome.getText();
+        String endereco = textFieldEndereco.getText();
+        String cpf = tfCPF.getText();
+        String cep = tfCep.getText();
+        String cartao = tfCartao.getText();
+        consulta.setString(1, nome);
+        consulta.setString(2, endereco);
+        consulta.setString(3, cpf);
+        consulta.setString(4, cep);
+        consulta.setString(5, cartao);
+        consulta.executeUpdate();
+        System.out.println("Foi Salvo o novo cliente com sucesso");
+        JOptionPane.showMessageDialog(this, "Novo Cliente foi salvo");
+        } catch(SQLException erro)
+        {
+            System.out.println("Erro executando stored procedure: "+erro);
+        }
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
@@ -197,20 +234,21 @@ public class NovoCliente extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NovoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoCliente_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NovoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoCliente_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NovoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoCliente_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NovoCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoCliente_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NovoCliente().setVisible(true);
+                new NovoCliente_BD().setVisible(true);
             }
         });
     }
@@ -229,4 +267,6 @@ public class NovoCliente extends javax.swing.JFrame {
     private javax.swing.JTextField tfCartao;
     private javax.swing.JTextField tfCep;
     // End of variables declaration//GEN-END:variables
+    private Connection conexao = null;
+    private CallableStatement consulta = null;
 }

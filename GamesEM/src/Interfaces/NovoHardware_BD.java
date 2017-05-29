@@ -12,18 +12,48 @@ import Codigos.ManipuladorArquivos;
 import java.io.File;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author emmanuel
  */
-public class NovoHardware extends javax.swing.JFrame {
+public class NovoHardware_BD extends javax.swing.JFrame {
 
     /**
      * Creates new form NovoCliente
      */
-    public NovoHardware() {
+    public NovoHardware_BD() {
         initComponents();
+        AbreBD();
+    }
+    
+    //Inicializa banco de dados
+    boolean AbreBD(){
+        try{
+            String usuario = "postgres";
+            String senha = "postgres";
+            Class.forName("org.postgresql.Driver");
+            String urlConexao = "jdbc:postgresql://127.0.0.1/LojaDeGames";
+            conexao = DriverManager.getConnection(urlConexao, usuario, senha);
+            conexao.setAutoCommit(true);
+            DatabaseMetaData dbmt = conexao.getMetaData();
+            System.out.println("Nome do BD: " + dbmt.getDatabaseProductName());
+            System.out.println("Versao do BD: " + dbmt.getDatabaseProductVersion());
+            System.out.println("URL: " + dbmt.getURL());
+            System.out.println("Driver: " + dbmt.getDriverName());
+            System.out.println("Versao Driver: " + dbmt.getDriverVersion());
+            System.out.println("Usuario: " + dbmt.getUserName());
+        }catch(ClassNotFoundException erro)
+        {
+            System.out.println("Erro no carregamento do Driver "+erro);
+        }
+        catch(SQLException erro)
+        {
+            System.out.println("Erro de SQL: "+erro);
+        }
+        return true;
     }
 
     /**
@@ -148,26 +178,27 @@ public class NovoHardware extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/Users/marcelo/Documents/bdHardware.bin");//Instancia novo arquivo para o banco de dados de Hardwares
-        //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
-        ArrayList<Hardware> bdHard = null;
-        ObjectOutputStream escritor = null;
-        //Instancia um cliente novo e seta os valores dos text fields
-        Hardware novoHard = new Hardware();
-        novoHard.setNomePeca (textFieldNome.getText());
-        novoHard.setMarca(textFieldMarca.getText());
-        novoHard.setPreco(Float.parseFloat((textFieldPreco.getText())));
-        novoHard.setPlataforma(textFieldPlataforma.getText());
-        novoHard.setDescricao(textFieldDescricao.getText());
-        //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
-        bdHard = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
-        if(bdHard == null)
-            bdHard = new ArrayList<>();
-        //Adiciona o novo cliente na lista do banco de dados
-        bdHard.add(novoHard);
-        //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
-        escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
-        ManipuladorArquivos.EscreveObjeto(escritor, bdHard, true);
+        int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
+        int concorrencia = ResultSet.CONCUR_UPDATABLE;
+        try{
+            consulta = conexao.prepareCall("{call inserehardware(?,?,?,?,?)}", tipo, concorrencia);
+            //Recebe os valores dos campos de texto e insere no banco de dados.
+            String nome = textFieldNome.getText();
+            String marca = textFieldMarca.getText();
+            String plataforma = textFieldPlataforma.getText();
+            String descricao = textFieldDescricao.getText();
+            float preco = Float.parseFloat(textFieldPreco.getText());
+            consulta.setString(1, nome);
+            consulta.setString(3, plataforma);
+            consulta.setString(2,marca);
+            consulta.setString(4, descricao);
+            consulta.setFloat(5, preco);
+            consulta.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Novo Hardware cadastrado com sucesso");
+        }catch (SQLException erro)
+        {
+            System.out.println("Falha na execução do StoredProcedure "+erro);
+        }
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
@@ -188,21 +219,23 @@ public class NovoHardware extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoHardware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoHardware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoHardware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NovoHardware.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NovoHardware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NovoHardware().setVisible(true);
+                new NovoHardware_BD().setVisible(true);
             }
         });
     }
@@ -221,4 +254,6 @@ public class NovoHardware extends javax.swing.JFrame {
     private javax.swing.JTextField textFieldPlataforma;
     private javax.swing.JTextField textFieldPreco;
     // End of variables declaration//GEN-END:variables
+    private Connection conexao = null;
+    private CallableStatement consulta = null;
 }

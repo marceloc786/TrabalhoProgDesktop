@@ -7,46 +7,61 @@
  */
 package Interfaces;
 
+import Codigos.ManipuladorArquivos;
+import Codigos.Software;
+import java.io.File;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author emmanuel
  */
-
-import Codigos.Cliente;
-import Codigos.ManipuladorArquivos;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-
-public class EditorClientes extends javax.swing.JFrame {
+public class EditarSoftware_BD extends javax.swing.JFrame {
 
     /**
      * Creates new form NovoCliente
      */
-    public EditorClientes(String nome, String endereco, int cpf, int cartao, int cpe, int indice) {
+    public EditarSoftware_BD() {
         initComponents();
-        indiceCli = indice;
-        textFieldNome.setText(nome);
-        textFieldEndereco.setText(endereco);
-        tfCPF.setText(Integer.toString(cpf));
-        tfCartao.setText(Integer.toString(cartao));
-        tfCep.setText(Integer.toString(cpe));
-        
+        AcessoAoBanco();
     }
 
-    private EditorClientes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void nomeASerAlterado(String str){
+        this.nomeOriginal = str;
     }
+    //Método para iniciar a conexão com o banco de dados
     
-    
-
+    public boolean AcessoAoBanco(){
+        try{
+            String usuario = "postgres";
+            String senha = "postgres";
+            Class.forName("org.postgresql.Driver");
+            String urlConexao = "jdbc:postgresql://127.0.0.1/LojaDeGames";
+            conexao = DriverManager.getConnection(urlConexao, usuario, senha);
+            conexao.setAutoCommit(true); //O padrão normalmente é false. Estamos usando  o true por propósitos de teste
+            DatabaseMetaData dbmt = conexao.getMetaData();
+            System.out.println("Nome do BD: " + dbmt.getDatabaseProductName());
+            System.out.println("Versao do BD: " + dbmt.getDatabaseProductVersion());
+            System.out.println("URL: " + dbmt.getURL());
+            System.out.println("Driver: " + dbmt.getDriverName());
+            System.out.println("Versao Driver: " + dbmt.getDriverVersion());
+            System.out.println("Usuario: " + dbmt.getUserName());
+        }
+        catch(ClassNotFoundException erro)
+        {
+            System.out.println("Falha no carregamento do Driver "+erro);
+            return false;
+        }
+        catch(SQLException erro)
+        {
+            System.out.println("Falha na conexão, comando SQL" +erro);
+            return false;
+        }
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,10 +72,10 @@ public class EditorClientes extends javax.swing.JFrame {
     private void initComponents() {
 
         textFieldNome = new javax.swing.JTextField();
-        textFieldEndereco = new javax.swing.JTextField();
-        tfCep = new javax.swing.JTextField();
-        tfCPF = new javax.swing.JTextField();
-        tfCartao = new javax.swing.JTextField();
+        textFieldPlataforma = new javax.swing.JTextField();
+        textFieldProdutora = new javax.swing.JTextField();
+        textFieldPreco = new javax.swing.JTextField();
+        textFieldDescricao = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -71,17 +86,17 @@ public class EditorClientes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tfCep.setText(" ");
+        textFieldProdutora.setText(" ");
 
-        jLabel1.setText("Nome do Cliente");
+        jLabel1.setText("Nome do Produto");
 
-        jLabel2.setText("Endereço do Cliente");
+        jLabel2.setText("Plataforma");
 
-        jLabel3.setText("CEP");
+        jLabel3.setText("Produtora");
 
-        jLabel4.setText("CPF");
+        jLabel4.setText("Preço");
 
-        jLabel5.setText("Cartão de Crédito");
+        jLabel5.setText("Descrição:");
 
         btnSalva.setText("Salva");
         btnSalva.addActionListener(new java.awt.event.ActionListener() {
@@ -114,18 +129,18 @@ public class EditorClientes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldProdutora, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(tfCartao, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
-                                .addComponent(tfCPF, javax.swing.GroupLayout.Alignment.LEADING))))
+                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(105, 105, 105)
                         .addComponent(btnCancela, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addComponent(textFieldPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,19 +154,19 @@ public class EditorClientes extends javax.swing.JFrame {
                         .addComponent(textFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(textFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPlataforma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldProdutora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldPreco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tfCartao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -169,27 +184,28 @@ public class EditorClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelaActionPerformed
 
     private void btnSalvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvaActionPerformed
-        File arquivo = new File("/Users/marcelo/Documents/bdCliente.bin");//Instancia novo arquivo para o banco de dados de clientes
-        //Instancia uma arraylist  para receber o objeto do banco de dados e le os valores
-        ArrayList<Cliente> bdCli = null;
-        ObjectOutputStream escritor = null;
-        //Instancia o leitor usando os métodos estáticos da classe ManipuladorArquivos
-        bdCli = (ArrayList) ManipuladorArquivos.LeObjeto(ManipuladorArquivos.CriaLeitorBinario(arquivo));
-        //Edita os valores do textfield diretamente no item a ser editado na Array List
-        bdCli.get(indiceCli).setNome(textFieldNome.getText());
-        bdCli.get(indiceCli).setCep(Integer.parseInt(tfCep.getText()));
-        bdCli.get(indiceCli).setEndereco(textFieldEndereco.getText());
-        bdCli.get(indiceCli).setCpf(Integer.parseInt(tfCPF.getText()));
-        bdCli.get(indiceCli).setnCartaoCredito(Integer.parseInt(tfCartao.getText()));
-        //Cria um escritor de arquivos para escrever a arraylist, escreve ela no binário e fecha os Streams
-        escritor = ManipuladorArquivos.CriaEscritorBinario(arquivo, false);
-        ManipuladorArquivos.EscreveObjeto(escritor, bdCli, true);
-        try {
-            escritor.close();
-        } catch (IOException ex) {
-            Logger.getLogger(EditorClientes.class.getName()).log(Level.SEVERE, null, ex);
+        int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
+        int concorrencia = ResultSet.CONCUR_UPDATABLE;
+        try{
+            consulta = conexao.prepareCall("{call editasoftware(?,?,?,?,?,?)}", tipo, concorrencia);
+            //Recebe os valores dos campos de texto e insere no banco de dados.
+            String nome = textFieldNome.getText();
+            String marca = textFieldProdutora.getText();
+            String plataforma = textFieldPlataforma.getText();
+            String descricao = textFieldDescricao.getText();
+            float preco = Float.parseFloat(textFieldPreco.getText());
+            consulta.setString(1, nome);
+            consulta.setString(2,marca);
+            consulta.setString(3, plataforma);
+            consulta.setFloat(4, preco);
+            consulta.setString(5, descricao);
+            consulta.setString(6, nomeOriginal);
+            consulta.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Software editado com sucesso");
+        }catch (SQLException erro)
+        {
+            System.out.println("Falha na execução do StoredProcedure "+erro);
         }
-        JOptionPane.showMessageDialog(this, "Item de cliente editado. Por favor, recarregue o banco de dados.");
         this.dispose();
     }//GEN-LAST:event_btnSalvaActionPerformed
 
@@ -210,21 +226,27 @@ public class EditorClientes extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditorClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarSoftware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditorClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarSoftware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditorClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarSoftware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditorClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EditarSoftware_BD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EditorClientes().setVisible(true);
+                new EditarSoftware_BD().setVisible(true);
             }
         });
     }
@@ -237,12 +259,13 @@ public class EditorClientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField textFieldEndereco;
+    private javax.swing.JTextField textFieldDescricao;
     private javax.swing.JTextField textFieldNome;
-    private javax.swing.JTextField tfCPF;
-    private javax.swing.JTextField tfCartao;
-    private javax.swing.JTextField tfCep;
+    private javax.swing.JTextField textFieldPlataforma;
+    private javax.swing.JTextField textFieldPreco;
+    private javax.swing.JTextField textFieldProdutora;
     // End of variables declaration//GEN-END:variables
-    private Cliente cli = new Cliente();
-    private int indiceCli;
+    private Connection conexao = null;
+    private CallableStatement consulta = null;
+    private String nomeOriginal = null;
 }
