@@ -394,7 +394,8 @@ public class JanelaPrincipal_BD extends javax.swing.JFrame {
        // Usará o  update table
        if(tabela!=null)
        {
-           switch(comboBox1.getSelectedIndex())
+        try{
+            switch(comboBox1.getSelectedIndex())
         {
             case 0: 
             {
@@ -426,7 +427,11 @@ public class JanelaPrincipal_BD extends javax.swing.JFrame {
                 edsof.setVisible(true);
                 break;
             }
+        }        
         }
+        catch (ArrayIndexOutOfBoundsException ex){
+                    JOptionPane.showMessageDialog(this,"Não foi selecionado nenhum elemento da tabela atual.");
+                }
        }
        else
            JOptionPane.showMessageDialog(this, "Ainda não foi carregada nenhuma tabela.");
@@ -435,7 +440,70 @@ public class JanelaPrincipal_BD extends javax.swing.JFrame {
     private void btnApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApagarActionPerformed
         //Deleta o conteúdo selecionado na ComboBox.
         //Pode estar obsoleto nessa nova versão. Veremos.
+        int tipo = ResultSet.TYPE_SCROLL_SENSITIVE;
+        int concorrencia = ResultSet.CONCUR_UPDATABLE;
         
+         if(tabela!=null)
+       {
+           switch(comboBox1.getSelectedIndex())
+        {
+            case 0: 
+            {
+                int linha = tabela.getSelectedRow();
+                String nome = (String) tabela.getValueAt(linha, 0);
+                double preco = (double)tabela.getValueAt(linha, 4);
+                System.out.println("O nome selecionado é :"+nome);
+               try {
+                   consulta = conexao.prepareCall("{call apagahardware(?,?)}", tipo, concorrencia);
+                   consulta.setString(1, nome);
+                   consulta.setDouble(2, preco);
+                   consulta.executeUpdate();
+                   System.out.println("As alterações foram salvas com sucesso");
+                   JOptionPane.showMessageDialog(this, "Alterações foram salvas");
+               } catch (SQLException ex) {
+                   System.out.println("Ocorreu algum erro apagando o hardware: " +ex);
+               }
+                break;
+            }
+            case 1:
+                {
+                int linha = tabela.getSelectedRow();
+                String cpf = (String) tabela.getValueAt(linha, 3);
+                
+                System.out.println("O CPF selecionado é :"+cpf);
+               try {
+                   consulta = conexao.prepareCall("{call apagacliente(?)}", tipo, concorrencia);
+                   consulta.setString(1, cpf);
+                   consulta.executeUpdate();
+                   System.out.println("As alterações foram salvas com sucesso");
+                   JOptionPane.showMessageDialog(this, "Alterações foram salvas");
+               } catch (SQLException ex) {
+                   System.out.println("Ocorreu algum erro apagando o cliente: " +ex);
+               }
+                break;
+            }
+            case 2:
+                {
+                int linha = tabela.getSelectedRow();
+                String nome = (String) tabela.getValueAt(linha, 0);
+                double preco = (double)tabela.getValueAt(linha, 4);
+                System.out.println("O nome selecionado é :"+nome);
+               try {
+                   consulta = conexao.prepareCall("{call apagasoftware(?,?)}", tipo, concorrencia);
+                   consulta.setString(1, nome);
+                   consulta.setDouble(2, preco);
+                   consulta.executeUpdate();
+                   System.out.println("As alterações foram salvas com sucesso");
+                   JOptionPane.showMessageDialog(this, "Alterações foram salvas");
+               } catch (SQLException ex) {
+                   System.out.println("Ocorreu algum erro apagando o software: " +ex);
+               }
+                break;
+            }
+        }
+       }
+       else
+           JOptionPane.showMessageDialog(this, "Ainda não foi carregada nenhuma tabela.");
     }//GEN-LAST:event_btnApagarActionPerformed
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
@@ -481,6 +549,7 @@ public class JanelaPrincipal_BD extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        System.out.println("Trabalho 2 de programação Desktop - Emmanuel Capelini Magalhães e Marcelo Caetano Mota");
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
